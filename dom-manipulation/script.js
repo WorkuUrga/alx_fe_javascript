@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-
-    quotes = [
+        quotes = [
         {text: "Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.",
             category: "Motivational"},
         {text:"Keep your face always toward the sunshine - and shadows will fall behind you.",
@@ -21,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const quoteDisplay = document.getElementById('quoteDisplay'); 
         const newQuoteText = document.getElementById('newQuoteText');
         const newQuoteCategory = document.getElementById('newQuoteCategory');
+        const newQuotes = document.getElementById('newQuotes');
 
         const addQuoteBtn = document.getElementById('addQuote');
         const newQuoteBtn = document.getElementById('newQuote');
@@ -52,4 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         addQuoteBtn.addEventListener('click', createAddQuoteForm);
 
+        function displayQuotes() {
+            newQuotes.innerHTML = '';
+            quotes.forEach(function(quote) {
+                const addedElement = document.createElement('div');
+                addedElement.innerHTML = `<p>Quote: ${quote.text}</p> <p>Category: ${quote.category}</p>`
+                newQuotes.appendChild(addedElement);
+            })
+        }
 });
