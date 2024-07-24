@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         newQuoteBtn.addEventListener('click', showRandomQuote)
 
-        function addQuote () {
+        function createAddQuoteForm () {
             const quoteNew = newQuoteText.value.trim();
             const quoteCatNew = newQuoteCategory.value.trim();
             
@@ -50,6 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Please enter quote and category')
             }
         }
-        addQuoteBtn.addEventListener('click', addQuote);
+        addQuoteBtn.addEventListener('click', createAddQuoteForm);
 
 });
