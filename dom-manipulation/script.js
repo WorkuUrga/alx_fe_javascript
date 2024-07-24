@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-        quotes = [
+        const quotes = [
         {text: "Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.",
             category: "Motivational"},
         {text:"Keep your face always toward the sunshine - and shadows will fall behind you.",
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         function showRandomQuote () {
-            const randomQuotes = Math.floor(Math.random() * quotes.length);
-            const quote = quotes[randomQuotes];
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
             quoteDisplay.innerHTML = `<p>Quote: ${quote.text}</p> <p>Category: ${quote.category}</p>`
         }
 
@@ -38,14 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const quoteNew = newQuoteText.value.trim();
             const quoteCatNew = newQuoteCategory.value.trim();
             
-            if(quoteNew !== '' && quoteCatNew !== '') {
+            if (quoteNew !== '' && quoteCatNew !== '') {
                 const newQuote = {
                     text: quoteNew,
                     category: quoteCatNew
                 };
                 quotes.push(newQuote);
-                newQuoteText.value = '';
+
+                newQuoteText.value = ''; 
                 newQuoteCategory.value = '';
+                displayQuotes();
+                displayQuotes();
             }else {
                 alert('Please enter quote and category')
             }
@@ -56,8 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
             newQuotes.innerHTML = '';
             quotes.forEach(function(quote) {
                 const addedElement = document.createElement('div');
-                addedElement.innerHTML = `<p>Quote: ${quote.text}</p> <p>Category: ${quote.category}</p>`
+                addedElement.innerHTML = `<p><strong>Quote:</strong> ${quote.text}</p> <p><strong>Category:</strong> ${quote.category}</p>`
                 newQuotes.appendChild(addedElement);
             })
         }
+        function saveQuotes() {
+            localStorage.setItem("quotes", JSON.stringify(quotes));
+        }
+
+    displayQuotes();
 });
