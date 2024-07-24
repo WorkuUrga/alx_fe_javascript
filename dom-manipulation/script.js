@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
-    const newQuoteBtn = document.getElementById('newQuote');
-    const displayArea = document.getElementById('quoteDisplay');
-
     quotes = [
         {text: "Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.",
             category: "Motivational"},
@@ -21,79 +18,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
 
-    function showRandomQuote() {
-        const randomQ = Math.floor(Math.random() * quotes.length);
-        const quote = quotes[randomQ];
+        const quoteDisplay = document.getElementById('quoteDisplay'); 
+        const newQuoteText = document.getElementById('newQuoteText');
+        const newQuoteCategory = document.getElementById('newQuoteCategory');
 
-        displayArea.innerHTML = `<p>Quote: ${quote.text}<p>
-                                <p>Category: ${quote.category}`;
-    }
+        const addQuoteBtn = document.getElementById('addQuote');
+        const newQuoteBtn = document.getElementById('newQuote');
 
-    function createAddQuoteForm() {
-        const quoteForm = document.createElement('form');
 
-        const quoteLabel = document.createElement('label');
-        quoteLabel.textContent = 'Quote';
-        const quoteInput = document.createElement('textarea');
-        quoteInput.placeholder = "Enter Your Quote";
+        function showRandomQuote () {
+            const randomQuotes = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomQuotes];
+            quoteDisplay.innerHTML = `<p>Quote: ${quote.text}</p> <p>Category: ${quote.category}</p>`
+        }
 
-        const quoteCategotylabel = document.createElement('label');
-        quoteCategotylabel.textContent = 'Category';
-        const quoteCategoryInput = document.createElement('input');
-        quoteCategoryInput.type = 'text';
-        quoteCategoryInput.placeholder = 'Enter Quote Category';
+        newQuoteBtn.addEventListener('click', showRandomQuote)
 
-        const submitBtn = document.createElement('button');
-        submitBtn.textContent = 'Add Quote'
-        submitBtn.type = 'button';
-
-        submitBtn.addEventListener('click', function() {
-            const newQuote = quoteInput.value.trim();
-            const newCategory = quoteCategoryInput.value.trim();
-
-            if(quoteInpute !== '' && quoteCategoryInput !== '') {
-                newQuotes = {
-                    text: newQuote,
-                    category: newCategory
-                }
-                quotes.push(newQuotes);
-                newQuote.value = '';
-                newCategory.value = '';
+        function addQuote () {
+            const quoteNew = newQuoteText.value.trim();
+            const quoteCatNew = newQuoteCategory.value.trim();
+            
+            if(quoteNew !== '' && quoteCatNew !== '') {
+                const newQuote = {
+                    text: quoteNew,
+                    category: quoteCatNew
+                };
+                quotes.push(newQuote);
+                newQuoteText.value = '';
+                newQuoteCategory.value = '';
             }else {
-                alert('Enter Quote with Category');
+                alert('Please enter quote and category')
             }
-        })
-
-
-
-        form.appendChild(quoteLabel);
-        form.appendChild(quoteInput);
-        form.appendChild(quoteCategotylabel);
-        form.appendChild(quoteCategoryInput);
-        form.appendChild(submitBtn);
-
-
-
-
-
-
-
-    }
-
-
-
-
-    newQuoteBtn.addEventListener('click', showRandomQuote)
-
-
-
-
-
-
-
-
-
-
-
+        }
+        addQuoteBtn.addEventListener('click', addQuote);
 
 });
