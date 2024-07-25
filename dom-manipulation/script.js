@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
         function showRandomQuote () {
             const randomIndex = Math.floor(Math.random() * quotes.length);
             const quote = quotes[randomIndex];
-            quoteDisplay.innerHTML = `<div id="lastDisplayedQuote>"<p>Quote: ${quote.text}</p> <p>Category: ${quote.category}</p></div>`
+            quoteDisplay.innerHTML = `<div id="lastDisplayedQuote"><p>Quote: ${quote.text}</p> <p>Category: ${quote.category}</p></div>`
+            lastDisplayedQuote();
         }
 
         newQuoteBtn.addEventListener('click', showRandomQuote)
@@ -101,9 +102,21 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(a);
             a.click();
 
-            document.body.removeElement('a');
+            document.body.removeElement(a);
             URL.revokeObjectURL(url);
         })
+
+        function importFromJsonFile(event) {
+            const fileReader = new FileReader();
+            fileReader.onload = function(event) {
+                const importedQuotes = JSON.parse(event.target.result);
+                quotes.push(...importedQuotes);
+                saveQuotes();
+                alert('Quotes imported successfully!');
+            };
+            fileReader.readAsText(event.target.files[0]);
+        }
+        loadQuotes();
 });
 
 
