@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const addQuoteBtn = document.getElementById('addQuote');
         const newQuoteBtn = document.getElementById('newQuote');
         const exportBtn = document.getElementById('exportQuotes');
+        const categoryFilter = document.getElementById('categoryFilter');
 
 
         function showRandomQuote () {
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newQuoteCategory.value = '';
                 displayQuotes();
                 saveQuotes();
+                populateCategories();
             }else {
                 alert('Please enter quote and category')
             }
@@ -73,7 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function loadQuotes() {
             const storedQuotes = JSON.parse(localStorage.getItem('quotes')) || quotes;
+            quotes = storedQuotes;
             displayQuotes();
+            populateCategories();
         }
 
         function lastDisplayedQuote() {
@@ -116,6 +120,37 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             fileReader.readAsText(event.target.files[0]);
         }
+            function filterQuotes() {
+                const selectedCategory = document.getElementById('categoryFilter').value;
+                newQuotes.innerHTML = '';
+                const filteredQuotes = selectedCategory === 'all'
+                    ? quotes
+                    : quotes.filter(quote => quote.category === selectedCategory);
+                filteredQuotes.forEach(quote => {
+                    const addedElement = document.createElement('div');
+                    addedElement.innerHTML = `<div><p class="quote-text"><strong>Quote:</strong> ${quote.text}</p> <p class="quote-category"><strong>Category:</strong> ${quote.category}</p></div>`;
+                    newQuotes.appendChild(addedElement);
+                });
+            }
+            
+            function populateCategories() {
+
+            const categoriesPop = new Set(quotes.map(quote => quote.category))
+            categoriesPop.forEach(category=> {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+
+                categoryFilter.appendChild(option);
+                })
+            }
+            const selectedCategory = localStorage.getItem('selectedCategory')
+            if(selectedCategory) {
+                categoryFilter.value = selectedCategory;
+                filterQuotes();
+            }
+
+        populateCategories();
         loadQuotes();
 });
 
