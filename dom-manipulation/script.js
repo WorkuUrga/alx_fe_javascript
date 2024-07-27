@@ -154,17 +154,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.clear(quotes);
             })
 
-        function fetchQuotesFromServer() {
-            fetch('https://jsonplaceholder.typicode.com/posts')
-            .then(response => response.json())
-            .then(serverQuotes => {
-                serverQuotes = serverQuotes.map(quote => ({ text: quote.title, category: "Fetched" }));
-                quotes = serverQuotes.concat(quotes.filter(localQuote => !serverQuotes.some(serverQuote => serverQuote.text === localQuote.text)));
-                saveQuotes();
-                displayQuotes();
-                populateCategoryFilter();
-                alert('Data synced with server!');
-            })
-            .catch(error => console.error('Error syncing with server:', error));
+async function syncWithServer() {
+    try {
+        let response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        let serverQuotes = await response.json();
+        serverQuotes = serverQuotes.map(quote => ({ text: quote.title, category: "Fetched" }));
+        quotes = serverQuotes.concat(quotes.filter(localQuote => !serverQuotes.some(serverQuote => serverQuote.text === localQuote.text)));
+
+        saveQuotes();
+        displayQuotes();
+        populateCategoryFilter();
+        alert('Data synced with server!');
+    } catch (error) {
+        console.error('Error syncing with server:', error);
     }
+}
 });
