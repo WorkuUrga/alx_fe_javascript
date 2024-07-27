@@ -165,8 +165,26 @@ async function fetchQuotesFromServer() {
         displayQuotes();
         populateCategoryFilter();
         alert('Data synced with server!');
+
+        await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(quotes),
+        });
+
     } catch (error) {
         console.error('Error syncing with server:', error);
     }
+    async function syncQuotes() {
+    setInterval(async () => {
+        await syncWithServer();
+    }, 30000); 
+}
+
+    document.addEventListener('DOMContentLoaded', function() {
+    syncQuotes();
+    });
 }
 });
