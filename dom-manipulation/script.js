@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.clear(quotes);
             })
 
-async function syncWithServer() {
+async function fetchQuotesFromServer() {
     try {
         let response = await fetch('https://jsonplaceholder.typicode.com/posts');
         let serverQuotes = await response.json();
