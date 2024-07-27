@@ -164,7 +164,7 @@ async function fetchQuotesFromServer() {
         saveQuotes();
         displayQuotes();
         populateCategoryFilter();
-        alert('Data synced with server!');
+        alert('Quotes synced with server!');
 
         await fetch('https://jsonplaceholder.typicode.com/posts', {
             method: 'POST',
