@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const exportBtn = document.getElementById('exportQuotes');
         const categoryFilter = document.getElementById('categoryFilter');
 
+    setInterval(syncWithServer, 5000);
 
         function showRandomQuote () {
             const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -149,9 +150,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 categoryFilter.value = selectedCategory;
                 filterQuotes();
             }
+            document.getElementById('clearStorage').addEventListener('click', function() {
+                localStorage.clear(quotes);
+            })
 
-        populateCategories();
-        loadQuotes();
+        function syncWithServer() {
+            fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            .then(serverQuotes => {
+                serverQuotes = serverQuotes.map(quote => ({ text: quote.title, category: "Fetched" }));
+                quotes = serverQuotes.concat(quotes.filter(localQuote => !serverQuotes.some(serverQuote => serverQuote.text === localQuote.text)));
+                saveQuotes();
+                displayQuotes();
+                populateCategoryFilter();
+                alert('Data synced with server!');
+            })
+            .catch(error => console.error('Error syncing with server:', error));
+    }
 });
-
-
