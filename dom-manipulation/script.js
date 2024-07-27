@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.clear(quotes);
             })
 
-        function syncWithServer() {
+        function fetchQuotesFromServer() {
             fetch('https://jsonplaceholder.typicode.com/posts')
             .then(response => response.json())
             .then(serverQuotes => {
